@@ -4,7 +4,10 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "lint": "eslint . --ext .js",
+    "test": "vitest run",
+    "build": "node --check index.js && node --check routes/auth.js && node --check routes/jobs.js && node --check routes/settings.js && node --check models/User.js && node --check models/Job.js && node --check middleware/auth.js"
   },
   "dependencies": {
     "axios": "^1.7.2",
@@ -16,6 +19,9 @@
     "mongoose": "^8.4.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.4"
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0",
+    "vitest": "^1.6.1"
   }
 }

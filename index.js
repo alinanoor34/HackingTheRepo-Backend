@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import { pathToFileURL } from "url";
 
 import authRoutes from "./routes/auth.js";
 import jobRoutes from "./routes/jobs.js";
@@ -25,7 +26,15 @@ app.use("/api/auth", authRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/settings", settingsRoutes);
 
-app.get("/api/health", (req, res) => res.json({ status: "ok", bot: process.env.REPOMIND_GITHUB_USERNAME || "repomind-bot" }));
+app.get("/api/health", (req, res) =>
+  res.json({ status: "ok", bot: process.env.REPOMIND_GITHUB_USERNAME || "repomind-bot" }),
+);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+export default app;
+
+const isDirectRun = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+
+if (isDirectRun && process.env.VITEST !== "true") {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+}
