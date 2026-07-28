@@ -2,11 +2,7 @@ name: CI/CD
 
 on:
   push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -27,8 +23,13 @@ jobs:
           --health-timeout 5s
           --health-retries 5
     env:
-      MONGO_URI: mongodb://localhost:27017/repomind
+      MONGO_URI: mongodb://localhost:27017/repomind_ci
       JWT_SECRET: ci-test-secret
+      ENCRYPTION_KEY: ci-encryption-key-for-tests
+      FRONTEND_ORIGIN: http://localhost:3000
+      REPOMIND_API_URL: http://localhost:8000
+      VITEST: "true"
+      NODE_ENV: test
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
