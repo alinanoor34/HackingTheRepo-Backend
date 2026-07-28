@@ -7,6 +7,7 @@ const jobSchema = new mongoose.Schema(
     instruction: { type: String, required: true },
     branchName: { type: String, required: true },
     prTitle: { type: String, required: true },
+    previewBeforePush: { type: Boolean, default: false },
     // The repomind job_id returned from FastAPI
     repomindJobId: { type: String, default: null },
     status: {
@@ -17,6 +18,8 @@ const jobSchema = new mongoose.Schema(
     prUrl: { type: String, default: null },
     diffSummary: { type: String, default: null },
     errorMessage: { type: String, default: null },
+    startedAt: { type: Date, default: null },
+    finishedAt: { type: Date, default: null },
     // Refinement history
     refinements: [
       {
