@@ -170,6 +170,7 @@ router.get("/:id/status", protect, async (req, res) => {
         job.status = "completed";
         job.prUrl = realPrUrl;
         job.diffSummary = data.diff_summary || null;
+        job.diff = data.diff || null; 
         job.finishedAt = new Date();
         job.errorMessage = null;
 
