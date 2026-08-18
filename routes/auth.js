@@ -13,13 +13,18 @@ import { encryptSecret } from "../utils/crypto.js";
 
 const COOKIE_NAME = "rm_session";
 
-const cookieOptions = () => ({
-  httpOnly: true,
-  secure: process.env.NODE_ENV === "production",
-  sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7d, matches JWT expiry
-  path: "/",
-});
+const cookieOptions = () => {
+  const isProd =
+    process.env.NODE_ENV === "production" && process.env.VITEST !== "true";
+
+  return {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "strict" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    path: "/",
+  };
+};
 
 const router = express.Router();
 
